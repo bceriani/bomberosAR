@@ -6,9 +6,9 @@ import App from './Components/App.vue';
 import Home from './Components/Home.vue';
 import Profile from './Components/Profile.vue';
 
-const routes = [
+const routes = [    
     { path: '/', component: Home },
-    { path: '/profile', component: Profile }
+    { path: '/profile', component: Profile },
 ];
 
 const router = createRouter({
