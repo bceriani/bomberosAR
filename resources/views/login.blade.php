@@ -28,7 +28,7 @@
                         </svg>
                     </a>
 
-                    <h1 class="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
+                    <h1 class="mt-6 text-2xl font-bold text-gray-800 sm:text-3xl md:text-4xl">
                         Bomberos San Pedro 🚒
                     </h1>
 

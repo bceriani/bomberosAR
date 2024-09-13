@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function () {
@@ -13,8 +14,13 @@ Route::middleware(['auth'])->group(function () {
     //* -------------- LOGOUT --------------
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-
+    //* -------------- HOME --------------
     Route::get('/', function () {
         return view('home');
     });
+
+    //* -------------- USERS --------------
+    route::get('/users', [UserController::class, 'index']);
+
+
 });
