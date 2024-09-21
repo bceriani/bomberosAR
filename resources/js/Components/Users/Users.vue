@@ -1,10 +1,20 @@
 <template>
     <section class="w-full">
         <h1 class="text-center mt-6 text-xl font-semibold text-gray-800 sm:text-3xl md:text-4xl">
-            Personal
+            Usuarios
         </h1>
 
         <div class="mx-10 mt-5 rounded-lg border border-gray-200">
+           
+            <router-link to="/users/create">
+                <a class="m-2 group relative inline-block text-sm font-medium text-red-600 focus:outline-none focus:ring active:text-red-500">
+                    <span
+                        class="absolute inset-0 translate-x-0.5 translate-y-0.5 bg-red-600 transition-transform group-hover:translate-x-0 group-hover:translate-y-0"></span>
+    
+                    <span class="relative block border border-current bg-white px-6 py-2"> Añadir Usuario </span>
+                </a>
+            </router-link>
+
             <div class="overflow-x-auto rounded-t-lg">
                 <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                     <thead class="ltr:text-left rtl:text-right">
