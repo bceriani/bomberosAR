@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +20,10 @@ Route::middleware(['auth'])->group(function () {
         return view('home');
     });
 
+    
     //* -------------- USERS --------------
-    route::get('/users', [UserController::class, 'index']);
+    Route::post("/register", [RegisterController::class, 'register'])->name('register');
+    Route::get('/users', [UserController::class, 'index']);
 
 
 });
