@@ -25,6 +25,18 @@
                 </span>
               </div>
             </div>
+
+            <div>
+              <label for="dni" class="block text-sm font-medium text-gray-700 mb-1">DNI</label>
+              <div class="relative">
+                <input v-model="user.dni" type="text" id="dni" class="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm text-gray-700" placeholder="DNI" required />
+                <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </span>
+              </div>
+            </div>
   
             <div>
               <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
@@ -42,6 +54,19 @@
               <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
               <div class="relative">
                 <input v-model="user.password" type="password" id="password" class="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm text-gray-700" placeholder="Contraseña" required />
+                <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Repetir Contraseña</label>
+              <div class="relative">
+                <input v-model="user.password_confirmation" type="password" id="password_confirmation" class="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm text-gray-700" placeholder="Repita la contraseña" required />
                 <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
                   <svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -68,12 +93,17 @@
             </div>
   
             <div>
-              <label for="rank" class="block text-sm font-medium text-gray-700 mb-1">Rango</label>
+              <label for="rank" class="block text-sm font-medium text-gray-700 mb-1">Rol</label>
               <div class="relative">
-                <input v-model="user.rank" type="number" id="rank" class="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm text-gray-700" placeholder="Rango" required />
+                <select v-model="user.rank" id="rank" class="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm text-gray-700" required>
+                  <option value="">Seleccionar Rol</option>
+                  <option value="Bombero">Bombero</option>
+                  <option value="Oficial">Oficial</option>
+                  <option value="Suboficial">Suboficial</option>
+                </select>
                 <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
                   <svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                   </svg>
                 </span>
               </div>
@@ -124,8 +154,10 @@
       return {
         user: {
           name: '',
+          dni: '',
           email: '',
           password: '',
+          password_confirmation: '',
           role: '',
           rank: '',
           username: '',
@@ -150,7 +182,7 @@
             formData.append(key, this.user[key]);
           }
   
-          const response = await axios.post('/users', formData, {
+          const response = await axios.post('/register', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -158,7 +190,7 @@
   
           console.log('Usuario creado:', response.data);
           alert('Usuario creado con éxito');
-          this.$router.push('/users');
+          // this.$router.push('/users');
         } catch (error) {
           console.error('Error al crear el usuario:', error);
           alert('Error al crear el usuario. Por favor, inténtelo de nuevo.');

@@ -10,7 +10,7 @@ use App\Models\User;
 class LoginController extends Controller
 {
     public function index()
-    {        
+    {
         if (Auth::check()) {
             return redirect('/');
         }
@@ -22,24 +22,24 @@ class LoginController extends Controller
     {
         try {
             $credentials = $request->only('username', 'password');
-            
-            if(!$request->username && !$request->password){
+
+            if (!$request->username && !$request->password) {
                 return redirect('login')->with('error_message', 'Introduzca su usuario y contraseña');
-            }elseif(!$request->username){
+            } elseif (!$request->username) {
                 return redirect('login')->with('error_message', 'Introduzca su usuario');
-            }elseif(!$request->password){
+            } elseif (!$request->password) {
                 return redirect('login')->with('error_message', 'Introduzca su contraseña');
             }
 
             $user = User::where('username', $credentials['username'])->first();
             if ($user) {
                 // if ($user->active == 1) {
-                    if (Auth::attempt($credentials)) {
-                        $request->session()->regenerate();
-                        return redirect('/');
-                    } else {
-                        return redirect('login')->with('error_message', 'Credenciales incorrectas');
-                    }
+                if (Auth::attempt($credentials)) {
+                    $request->session()->regenerate();
+                    return redirect('/');
+                } else {
+                    return redirect('login')->with('error_message', 'Credenciales incorrectas');
+                }
                 // } else {
                 //     return redirect('login')->with('error_message', 'Usuario inactivo');
                 // }
@@ -56,11 +56,58 @@ class LoginController extends Controller
         return redirect('/');
     }
 
-    public function logout(){
+    public function logout()
+    {
         Session::flush();
 
         Auth::logout();
-        
+
         return redirect()->to('/');
+    }
+
+    // function to login with laravel sanctum token, this is for api
+    public function loginWithToken(Request $request)
+    {
+        try {
+            if (!Auth::attempt($request->only('username', 'password'))) {
+                return response([
+                    'message' => 'Credenciales invalidas'
+                ], 401);
+            }
+
+            $user = User::where('username', $request->username)->firstOrFail();
+
+            // Revoke all previous tokens
+            $user->tokens()->delete();
+
+            // Create a new token
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response([
+                'message' => "Bienvenido " . $user->name,
+                'accessToken' => $token,
+                'token_type' => 'Bearer',
+                'user' => $user,
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                'message' => 'Error en el inicio de sesión'
+            ], 500);
+        }
+    }
+
+    // function to logout with laravel sanctum token, this is for api
+    public function logoutWithToken(Request $request)
+    {
+        try {
+            $request->user()->tokens()->delete();
+            return response([
+                'message' => 'Sesion cerrada'
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                'message' => 'Error al cerrar sesion'
+            ]);
+        }
     }
 }

@@ -23,10 +23,13 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
+            'dni' => 'required|unique:users,dni',
             'email' => 'required|unique:users,email',
+            'password' => 'required|min:8',
+            'password_confirmation' => 'required|same:password',
             'rank' => 'required|string|in:Bombero,Oficial,Suboficial',
             'username' => 'required|unique:users,username',
-            'picprofile' => ['sometimes', 'image', 'max:2048'],
+            // 'picprofile' => ['nullable' ,'sometimes', 'image', 'max:2048'],
         ];
     }
 }
